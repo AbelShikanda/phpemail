@@ -1,5 +1,6 @@
 <?php
 
+use App\Mail\phpmail;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -18,6 +19,14 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Auth::routes();
+Auth::routes(['verify' => true]);
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/jobs', [App\Http\Controllers\JobsController::class, 'index'])
+->middleware('auth', 'verified')
+->name('jobs');
+Route::get('/jobs/create', [App\Http\Controllers\JobsController::class, 'create'])->name('jobsCreate');
+Route::post('/jobs/post', [App\Http\Controllers\JobsController::class, 'store'])->name('jobsPost');
+Route::get('/jobs/detail/{id}', [App\Http\Controllers\JobsController::class, 'show'])->name('jobsView');
+Route::get('/jobs/edit/{id}', [App\Http\Controllers\JobsController::class, 'edit'])->name('jobsEdit');
+Route::patch('/jobs/update/{id}', [App\Http\Controllers\JobsController::class, 'update'])->name('jobsUpdate');
+Route::post('/jobs/delete/{id}', [App\Http\Controllers\JobsController::class, 'destroy'])->name('jobsDestroy');

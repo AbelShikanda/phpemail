@@ -1,10 +1,11 @@
 @component('mail::message')
-# Introduction
+# {{ $job->name }}
+## Greetings You
 
-The body of your message.
+We have just posted a new job.
 
-@component('mail::button', ['url' => ''])
-Button Text
+@component('mail::button', ['url' => url('/jobs/detail/' . $job->id)])
+View the new listing
 @endcomponent
 
 Thanks,<br>
